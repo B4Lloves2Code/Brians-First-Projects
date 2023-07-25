@@ -1,0 +1,190 @@
+def check_rows_x(board):
+    for row in board:
+        if row[0] == 'X' and row[1] == 'X' and row[2] == 'X':
+            return True
+    return False
+
+def check_rows_o(board):
+    for row in board:
+        if row[0] == 'O' and row[1] == 'O' and row[2] == 'O':
+            return True
+    return False
+
+def check_col_x(board):
+    for col in range(3):
+        if board[0][col] == 'X' and board[1][col] == 'X' and board[2][col] == 'X':
+            return True
+    return False
+
+def check_col_o(board):
+    for col in range(3):
+        if board[0][col] == 'O' and board[1][col] == 'O' and board[2][col] == 'O':
+            return True
+    return False
+
+def check_first_diag_x(board):
+    if board[0][0] == 'X' and board[1][1] == 'X' and board[2][2] == 'X':
+        return True
+    return False
+
+def check_first_diag_o(board):
+    if board[0][0] == 'O' and board[1][1] == 'O' and board[2][2] == 'O':
+        return True
+    return False
+
+def check_second_diag_x(board):
+    if board[0][2] == 'X' and board[1][1] == 'X' and board[2][0] == 'X':
+        return True
+    return False
+
+def check_second_diag_o(board):
+    if board[0][2] == 'O' and board[1][1] == 'O' and board[2][0] == 'O':
+        return True
+    return False
+
+def is_board_full(board):
+    for row in board:
+        for cell in row:
+            if cell == 0 or cell == 1 or cell == 2 or cell == 3:
+                return False
+    return True
+
+def check_winner(board):
+    if check_rows_x(board) or check_col_x(board) or check_first_diag_x(board) or check_second_diag_x(board):
+        return True, 'Player 1'
+    elif check_rows_o(board) or check_col_o(board) or check_first_diag_o(board) or check_second_diag_o(board):
+        return True, 'Player 2'
+    else:
+        return False, 'none'
+def is_valid_move(board, row, col):
+  place = board[row][col]
+  if place != 'X' and place != 'O':
+    return True
+  else:
+    return False
+
+def print_tic_tac_toe(values):
+    print("\n")
+    print("\t     |     |")
+    print("\t  {}  |  {}  |  {}".format(values[0][0], values[0][1], values[0][2]))
+    print('\t_____|_____|_____')
+ 
+    print("\t     |     |")
+    print("\t  {}  |  {}  |  {}".format(values[1][0], values[1][1], values[1][2]))
+    print('\t_____|_____|_____')
+ 
+    print("\t     |     |")
+ 
+    print("\t  {}  |  {}  |  {}".format(values[2][0], values[2][1], values[2][2]))
+    print("\t     |     |")
+    print("\n")
+def make_marker(number):
+  row = 0
+  column = 0
+  if number == 1:
+    row = 0
+    column = 0
+  elif number == 2:
+    row = 0 
+    column = 1
+  elif number == 3:
+    row = 0
+    column = 2
+  elif number == 4:
+    row = 1
+    column = 0
+  elif number == 5:
+    row = 1
+    column = 1
+  elif number == 6:
+    row = 1
+    column = 2
+  elif number == 7:
+    row = 2 
+    column = 0
+  elif number == 8:
+    row = 2 
+    column = 1
+  elif number == 9:
+    row = 2
+    column = 2
+  return row,column
+    
+  
+
+    
+
+
+  
+
+    
+      
+  
+  
+  
+      
+    
+
+
+
+
+
+board = [[1,2,3],
+         [4,5,6],
+         [7,8,9]]
+print_tic_tac_toe(board)
+
+player_1_won = False
+player_2_won = False
+tie = False
+row = 0
+column = 0
+while player_1_won == False and player_2_won == False and tie == False:
+  if is_board_full(board):
+    print("The game is Full You have tied")
+    tie = True
+  print("Player 1 Turn (X)")
+  print((print_tic_tac_toe(board)))
+  number =int(input("Please Type in Which Number You want to place your token: "))
+  while number == 0 or number >9:
+    print("You picked a number that was not on the board please try again")
+    number =int(input("Please Type in Which Number You want to place your token: "))
+  row, column = make_marker(number)
+  while is_valid_move(board,row,column) == False:
+    print("Spot is already picked please try again")
+    number =int(input("Please Type in Which Number You want to place your token: "))
+    row, column = make_marker(number)
+    
+  
+  board[row][column] = "X"
+  print(print_tic_tac_toe(board))
+  game_won, winner = check_winner(board)
+  
+  if game_won == True:
+    print(f'Congratulations {winner}. You have won')
+    player_1_won = True
+  if is_board_full(board):
+    print("The game is Full You have tied")
+    tie = True
+    
+  print("Player 2 Turn(O)")
+  number = int(input("Please Type in Which Number You Want to place your token "))
+  while number == 0 or number >9:
+    print("You picked a number that was not on the board please try again")
+    number =int(input("Please Type in Which Number You want to place your token: "))
+  row,column = make_marker(number)
+  while is_valid_move(board,row,column) == False:
+    print("Spot is already picked please try again")
+    number =int(input("Please Type in Which Number You want to place your token"))
+    row,column = make_marker(number)
+  board[row][column] = "O"
+  print((print_tic_tac_toe(board)))
+  game_won, winner = check_winner(board)
+  if game_won == True:
+    print(f'Congratulations {winner}. You have won')
+    player_1_won = True
+  
+  
+  
+  
+  
