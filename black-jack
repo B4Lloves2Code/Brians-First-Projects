@@ -1,0 +1,299 @@
+
+import random
+from random import randint
+#FUNCTIONS
+def value_generator(card):
+    if 'Ace' in card:
+        prompt = int(input("You have recieved an Ace. This offers you the choice of the values of 1 and 11. Type in 1 for the value of 1 and any other number for the value of 11 "))
+        if prompt == 1:
+          value = 1
+          return value
+        else:
+          value = 11
+          return value
+    elif 'Two' in card:
+        value = 2
+        return value
+    elif 'Three' in card:
+        value = 3
+        return value
+    elif 'Four' in card:
+        value = 4
+        return value
+    elif 'Five' in card:
+        value = 5
+        return value
+    elif 'Six' in card:
+        value = 6
+        return value
+    elif 'Seven' in card:
+        value = 7
+        return value
+    elif 'Eight' in card:
+        value = 8
+        return value
+    elif 'Nine' in card:
+        value = 9
+        return value
+    else:
+        value = 10
+        return value
+def d_generator(card,cur_value):
+    if 'Ace' in card:
+        if cur_value >= 11:
+            value = 1
+            return value
+        else:
+            value = 11
+            return value
+    elif 'Two' in card:
+        value = 2
+        return value
+    elif 'Three' in card:
+        value = 3
+        return value
+    elif 'Four' in card:
+        value = 4
+        return value
+    elif 'Five' in card:
+        value = 5
+        return value
+    elif 'Six' in card:
+        value = 6
+        return value
+    elif 'Seven' in card:
+        value = 7
+        return value
+    elif 'Eight' in card:
+        value = 8
+        return value
+    elif 'Nine' in card:
+        value = 9
+        return value
+    else:
+        value = 10
+        return value
+
+
+def create_deck():
+    cards_string = "Ace of Clubs,Two of Clubs,Three of Clubs,Four of Clubs,Five of Clubs,Six of Clubs,Seven of Clubs,Eight of Clubs,Nine of Clubs,Ten of Clubs,Jack of Clubs,Queen of Clubs,King of Clubs,Ace of Spades,Two of Spades,Three of Spades,Four of Spades,Five of Spades,Six of Spades,Seven of Spades,Eight of Spades,Nine of Spades,Ten of Spades,Jack of Spades,Queen of Spades,King of Spades,Ace of Hearts"
+    cards = cards_string.split(',')
+    random.shuffle(cards)  # Shuffle the cards list in place
+    return cards
+
+
+
+def new_card(mydeck, cards):
+    deck = mydeck
+    if len(deck) > 0:
+        choice = deck.pop(0)  # Draw the first card from the deck
+        new_card = choice  # Add the drawn card to the player's hand (cards list)
+    else:
+        print("The deck is empty.")
+        new_deck = create_deck()
+        choice = new_deck.pop(0)
+        new_card = choice
+    return choice
+    
+
+def remove_card(deck,card):
+    for card_1 in deck:
+        if card_1 == card:
+            deck.remove(card)
+    return deck
+
+
+#Main
+cards_string = "Ace of Clubs,Two of Clubs,Three of Clubs,Four of Clubs,Five of Clubs,Six of Clubs,Seven of Clubs,Eight of Clubs,Nine of Clubs,Ten of Clubs,Jack of Clubs,Queen of Clubs,King of Clubs,Ace of Spades,Two of Spades,Three of Spades,Four of Spades,Five of Spades,Six of Spades,Seven of Spades,Eight of Spades,Nine of Spades,Ten of Spades,Jack of Spades,Queen of Spades,King of Spades,Ace of Hearts"
+cards =cards_string.split(',')
+deck = []
+name = input("Welcome to Black Jack. Can You Please Enter Your name: ")
+print(f"Hello {name}. Welcome to our Black Jack Table, we are excited to have you here. Our game is played with the standard rules. There are 52 cards in a deck and you are free to play as many times as you want. The Betting range is from $2 to $500, and you are urged to not bet more than you have, but if you do we are not responsible for your debt. When you are asked you will have the option to hit by typing in 'hit' or stay by typing in 'stay'. So without further ado lets get ready to Begin ")
+bank_account = 100
+play_again = 'yes'
+invalid_bet = False
+while 'yes' in play_again:
+  bet = float(input("How much money do you want to bet? "))
+  bet_attempt = 0
+  while (bet > bank_account):
+    if bet_attempt > 0:
+     invalid_bet = True
+     play_again = False
+    bet = float(input('Your bet is greater than you current bank account allowance. Please place a new bet '))
+    bet_attempt = bet_attempt +1
+  player_cards = []
+  dealer_cards = []
+  playing = True
+  init_dealer_value = 0
+  dealer_value = 0
+  init_user_value = 0
+  outcome = 0
+  user_bust = False
+  computer_bust = False
+  user_21 = False
+  computer_21 = False
+  user_won = False
+  computer_won = False
+  first_stand = True 
+  playing = True
+  while playing:
+    #   cards_string = "Ace of Clubs,Two of Clubs,Three of Clubs,Four of Clubs,Five of Clubs,Six of Clubs,Seven of Clubs,Eight of Clubs,Nine of Clubs,Ten of Clubs,Jack of Clubs,Queen of Clubs,King of Clubs,Ace of Spades,Two of Spades,Three of Spades,Four of Spades,Five of Spades,Six of Spades,Seven of Spades,Eight of Spades,Nine of Spades,Ten of Spades,Jack of Spades,Queen of Spades,King of Spades,Ace of Hearts"
+    #   cards =cards_string.split(',')
+    #   deck = []
+    #   #using a random choice generator to shuffle the cards into a deck
+    #   deck = random.shuffle(cards)
+    #   print(deck)
+      deck = create_deck()
+      dealer_value = 0
+      user_value = 0
+      dealer_cards = []
+      user_cards = []
+      #Dealer First Two Cards
+      card1 = new_card(deck,cards)
+      deck = remove_card(deck,card1)
+      card1_val = d_generator(card1,dealer_value)
+      dealer_value = dealer_value + card1_val
+      card2 = new_card(deck,cards)
+      deck = remove_card(deck,card2)
+      card2_val = d_generator(card2,dealer_value)
+      dealer_value = dealer_value + card2_val
+      #User First Two Cards
+      u_card1 = new_card(deck,cards)
+      deck = remove_card(deck,u_card1)
+      u_card1_val = value_generator(u_card1)
+      user_value = user_value + u_card1_val
+      u_card2 = new_card(deck,cards)
+      deck = remove_card(deck,u_card2)
+      u_card2_val = value_generator(u_card2)
+      user_value = user_value + u_card2_val
+  
+  
+      print("The Dealer Shuffles the deck and hands you two cards. One Faced up and One Faced down.")
+      print(f" You have pulled a {u_card1}")
+      print(f"User Value: {u_card1_val}")
+      print(f"The Dealer then pulls out his first two cards and flips an {card1} face front on the table.  ")
+      print(f'Dealer Value: {card1_val}')
+      print(f'You then flip your second card. You have pulled an {u_card2}. ')
+      print(f'User Value: {user_value}')
+      if user_value == 21:
+        user_21 = True
+        playing = False
+      answer1 = input(f'Would you like to hit(hit) or stay(stay): ')
+      if answer1 != 'hit':
+          first_stand = True
+      
+    
+      while user_value < 21 and  'hit' in answer1.lower() and playing == True:
+          u_new_card = new_card(deck,cards)
+          u_new_card_val = value_generator(u_new_card) 
+          deck = remove_card(deck,u_new_card)
+          user_value = user_value +u_new_card_val
+          
+          if user_value >21:
+           user_bust = True
+           print(f'You have pulled a {u_new_card}')
+           print(f'User Value: {user_value}')
+           playing = False
+          else:
+              answer1 = input(f"You have pulled a {u_new_card}. Your Total Value is {user_value}. Do you want to (''hit'') or (''stay'') ")
+  
+  
+      if user_value == 21:
+        print(f"You have pulled a {u_new_card} ")
+        print(f'User Value: {user_value}')
+        user_21 = True
+        playing = False
+        
+      if user_value > 21:
+        print(f"You have pulled a {u_new_card} ")
+      #   print(f'User Value: {user_value}')
+        user_bust = True
+        playing = False
+        
+      if dealer_value == 21:
+        computer_21 = True
+        playing = False
+      if playing or first_stand and user_bust == False:
+          print(f'The Dealer has now pulled out {card2}.')
+          while dealer_value <16 :
+              d_new_card = new_card(deck,cards)
+              deck = remove_card(deck,d_new_card)
+              d_new_card_val = d_generator(d_new_card,dealer_value)
+              print(f"The Dealer has decided to hit. He has pulled {d_new_card}")
+              print(f"Dealer Value: {dealer_value+d_new_card_val}")
+              if dealer_value > 21:
+                  computer_bust == True
+                  playing = False
+              dealer_value = dealer_value + d_new_card_val
+      playing = False
+    # if 'yes' in play_again:
+    #   playing = True
+  if dealer_value == user_value:
+     play_again = input('The game has ended in a tie. Do you want to play again? ')
+  elif dealer_value >21:
+    outcome = bet
+    bank_account = bank_account + outcome
+    computer_bust = True
+    if d_new_card != '':
+      print(f'The Dealer has pulled {d_new_card}.')
+    play_again = ('So unfortunately....... HE HAS BUST WHICH MEANS YOU HAVE WON. CONGRATULATIONS')
+  elif user_bust:
+    outcome = bet
+    bank_account = bank_account - outcome
+    print(f'User Value = {user_value}')
+    print(f'Dealer Value = {dealer_value}')
+    play_again = input(f'Unfotunately your value has gone over 21 which means you have bust. Your bank account is now at ${bank_account} Do you want to play again? ')
+  elif user_21:
+    outcome = bet
+    bank_account = bank_account + outcome
+    print(f"I am sad to inform you that you have a total score of {user_value} which actually means you won. CONGRATULATIONS")
+  elif computer_21:
+    outcome = bet
+    bank_account = bank_account - outcome
+    print(f'User Value = {user_value}')
+    print(f'Dealer Value = {dealer_value}')
+    play_again = input(f'unfortunatley The Dealer has hit a perfect 21 which means you have lost Your bank account is now at ${bank_account} Do you want to play again? ')
+  elif dealer_value > user_value and computer_bust == False :
+    outcome = bet
+    bank_account = bank_account - outcome
+    print(f'User Value = {user_value}')
+    print(f'Dealer Value = {dealer_value}')
+    play_again = input(f'Unfortunately, the dealer has reached a value of {dealer_value} which means you have lost.  Your bank account balance is now ${bank_account} Do you want to play again? ')
+  elif computer_bust:
+        print(f'User Value = {user_value}')
+        print(f'Dealer Value = {dealer_value}')
+        play_again = input("The dealer has surpassed 21, which he has bust, do you want to play again? ")
+  
+  
+  if user_value > dealer_value and user_bust == False:
+     outcome = bet
+     bank_account = bank_account + outcome
+     print(f'User Value = {user_value}')
+     print(f'Dealer Value = {dealer_value}')
+     play_again = input(f'Congratulations, You have won ${bet*2}. Your bank account balance is now ${bank_account} Do you want to play again? ')
+if invalid_bet:
+   print("BYE")
+elif bank_account > 0:
+   earnings = bank_account
+   print(f"Thank you for playing Black Jack. You have earned ${bank_account}. Thank You for playing. We would love to see you come back again")
+elif bank_account == 0:
+    print("Thank you for playing Black Jack. You have earned a total of $0. We would love to have you back sometime ")
+    
+         
+         
+
+
+     
+         
+
+            
+
+             
+         
+         
+     
+
+     
+
+     
+
